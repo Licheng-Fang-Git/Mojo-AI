@@ -10,7 +10,7 @@ export default function CompanionWidget({ pendingAiRequest, activityCaptureStatu
     const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
     const hasUnreadInsightsFlag = hasUnreadInsights.some((insight) => !insight.read);
     const offset = useRef({ x: 0, y: 0 });
-    const [tempPosition, setTempPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+    const tempPosition = useRef({ x: 0, y: 0 });
 
     const handlePointerDown = (e: PointerEvent<HTMLDivElement>) => {
         setIsDragging(true);
@@ -21,10 +21,10 @@ export default function CompanionWidget({ pendingAiRequest, activityCaptureStatu
         const rect = e.currentTarget.getBoundingClientRect();
         const currentPosition = position ?? { x: rect.left, y: rect.top };
 
-        setTempPosition({
+        tempPosition.current = {
             x: position?.x ?? rect.left,
             y: position?.y ?? rect.top
-        });
+        };
         // Calculate the difference between click point and element top/left
         offset.current = {
         x: e.clientX - currentPosition.x,
@@ -68,7 +68,13 @@ export default function CompanionWidget({ pendingAiRequest, activityCaptureStatu
             style={position ? { left: position.x, top: position.y, bottom: 'auto', right: 'auto' } : undefined}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            onClick={() => {(position.x === tempPosition.x && position.y === tempPosition.y) ? setIsExpanded(!isExpanded) : setIsExpanded(isExpanded)}}
+            onClick={() => {
+                if (!position || (position.x === tempPosition.current.x && position.y === tempPosition.current.y)) {
+                    setIsExpanded(!isExpanded);
+                } else {
+                    setIsExpanded(isExpanded);
+                }
+            }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}>
