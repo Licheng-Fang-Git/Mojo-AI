@@ -1,0 +1,60 @@
+.companion-widget {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #1f2937;
+  border: 2px solid #374151;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  color: #f9fafb;
+  font-family: system-ui, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.companion-widget--hovered {
+  transform: scale(1.08);
+  border-color: #60a5fa;
+}
+
+.companion-widget--expanded {
+  width: 220px;
+  height: auto;
+  min-height: 100px;
+  border-radius: 16px;
+  padding: 16px;
+  align-items: flex-start;
+  flex-direction: column;
+  text-align: left;
+}
+
+.companion-widget--pending {
+  border-color: #facc15;
+  animation: companion-pulse 1.2s infinite ease-in-out;
+}
+
+.companion-widget--error {
+  border-color: #f87171;
+}
+
+.companion-widget__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2px solid #111827;
+}
+
+@keyframes companion-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(250, 204, 21, 0); }
+}
